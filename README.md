@@ -20,11 +20,11 @@ uv run pytest
 uv run python -m lobgen.<module>
 ```
 
-The raw data is not in git. Point the code at your local copy:
+The raw data is not in git. Copy `.env.example` to `.env` and point it at your local copy. Relative paths are relative to the repo root.
 
 ```sh
-export LOBGEN_DATA_DIR=/path/to/sample_6months_2025-01_to_06   # contains fesx/ and vstoxx/ with YYYYMMDD.parquet
-export LOBGEN_OUT_DIR=/path/to/outputs                         # snapshots, trade tables, runs
+LOBGEN_DATA_DIR=data/sample_6months_2025-01_to_06   # contains fesx/ and vstoxx/ with YYYYMMDD.parquet
+LOBGEN_OUT_DIR=data/out                             # snapshots, trade tables, runs
 ```
 
 Add a dependency with `uv add <package>` (updates `pyproject.toml` and `uv.lock`). For Colab or a cluster without uv: `uv export --no-hashes > requirements.txt`, then `pip install -r requirements.txt`.

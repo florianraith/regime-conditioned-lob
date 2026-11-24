@@ -11,10 +11,31 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
-# Raw input: {fesx,vstoxx}/YYYYMMDD.parquet. Override with LOBGEN_DATA_DIR.
-DATA_DIR = Path(os.environ.get("LOBGEN_DATA_DIR", REPO_ROOT.parent / "data" / "sample_6months_2025-01_to_06"))
-# Derived snapshots, trade tables and runs. Override with LOBGEN_OUT_DIR.
-OUT_DIR = Path(os.environ.get("LOBGEN_OUT_DIR", REPO_ROOT.parent / "data" / "generative" / "sample6m"))
+
+def _read_env_file(path: Path) -> dict[str, str]:
+    """KEY=VALUE lines from the repo's .env. Comments (whole line or after " #") are skipped."""
+    if not path.is_file():
+        return {}
+    lines = (line.split(" #", 1)[0].strip() for line in path.read_text().splitlines())
+    pairs = (line.split("=", 1) for line in lines if "=" in line and not line.startswith("#"))
+    return {k.strip(): v.strip().strip("\"'") for k, v in pairs}
+
+
+_ENV_FILE = _read_env_file(REPO_ROOT / ".env")
+
+
+def _path_var(name: str) -> Path:
+    """Path from the shell environment, else from .env. Relative paths are relative to the repo root."""
+    value = os.environ.get(name) or _ENV_FILE.get(name)
+    if not value:
+        raise RuntimeError(f"{name} is not set. Copy .env.example to .env and set it.")
+    return (REPO_ROOT / Path(value).expanduser()).resolve()
+
+
+# Raw input: {fesx,vstoxx}/YYYYMMDD.parquet.
+DATA_DIR = _path_var("LOBGEN_DATA_DIR")
+# Derived snapshots, trade tables and runs.
+OUT_DIR = _path_var("LOBGEN_OUT_DIR")
 
 INSTRUMENTS = ("fesx", "vstoxx")
 TICK = {"fesx": 1.0, "vstoxx": 0.05}
