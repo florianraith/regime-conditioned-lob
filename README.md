@@ -2,11 +2,15 @@
 
 KIT BWL Praktikum WS26. Generative models for the Eurex FESX order book, conditioned on market regimes, trained on a 6 month sample (2025-01-02 to 2025-06-30, FESX with VSTOXX as context).
 
-* `difflob/`: DiffLOB (Wang & Ventre, IJCAI 2026), Arda
-* `lobgan/`: LOB GAN (Cont et al. 2023), Florian
-* `common/`: shared pipeline (config, snapshot grid, flows, transforms, metrics)
-
 Both models use the same 0.5 s / 1 s / 2 s grid, 64 s blocks and splits, so results go into one table.
+
+## Layout
+
+* `src/lobgen/common/`: shared pipeline used by both models (config, snapshot grid, flows, transforms, metrics).
+* `src/lobgen/lobgan/`: LOB GAN (Cont et al. 2023), Florian.
+* `src/lobgen/difflob/`: DiffLOB (Wang & Ventre, IJCAI 2026), Arda.
+* `configs/`: YAML hyperparameters per training run.
+* `tests/`: checks that the code matches the implementation guides.
 
 ## Setup
 
