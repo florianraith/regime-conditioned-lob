@@ -1,8 +1,6 @@
 # Regime-Conditioned Generative Modelling of Limit Order Books
 
-Generative models for the Eurex FESX order book, conditioned on market regimes, trained on a 6 month sample (2025-01-02 to 2025-06-30, FESX with VSTOXX as context).
-
-Both models use the same 0.5 s / 1 s / 2 s grid, 64 s blocks and splits, so results go into one table.
+Code for the KIT research project "Regime-Conditioned Generative Modelling of Limit Order Books".
 
 ## Layout
 
