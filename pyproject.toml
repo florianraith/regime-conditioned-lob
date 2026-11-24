@@ -2,7 +2,7 @@
 name = "lobgen"
 version = "0.1.0"
 description = "Regime-conditioned generative modelling of limit order books (DiffLOB, LOB GAN) on Eurex FESX"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     "numpy",
     "pandas",
@@ -14,7 +14,7 @@ dependencies = [
     "lightgbm",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = ["pytest"]
 
 [build-system]

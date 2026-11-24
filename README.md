@@ -1,6 +1,6 @@
 # Regime-Conditioned Generative Modelling of Limit Order Books
 
-KIT BWL Praktikum WS26. Generative models for the Eurex FESX order book, conditioned on market regimes, trained on a 6 month sample (2025-01-02 to 2025-06-30, FESX with VSTOXX as context).
+Generative models for the Eurex FESX order book, conditioned on market regimes, trained on a 6 month sample (2025-01-02 to 2025-06-30, FESX with VSTOXX as context).
 
 Both models use the same 0.5 s / 1 s / 2 s grid, 64 s blocks and splits, so results go into one table.
 
@@ -14,10 +14,12 @@ Both models use the same 0.5 s / 1 s / 2 s grid, 64 s blocks and splits, so resu
 
 ## Setup
 
+Requires [uv](https://docs.astral.sh/uv/). 
+
 ```sh
-python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
-pytest
+uv sync                  # installs Python 3.12 and the locked packages into .venv
+uv run pytest
+uv run python -m lobgen.<module>
 ```
 
 The raw data is not in git. Point the code at your local copy:
@@ -26,6 +28,8 @@ The raw data is not in git. Point the code at your local copy:
 export LOBGEN_DATA_DIR=/path/to/sample_6months_2025-01_to_06   # contains fesx/ and vstoxx/ with YYYYMMDD.parquet
 export LOBGEN_OUT_DIR=/path/to/outputs                         # snapshots, trade tables, runs
 ```
+
+Add a dependency with `uv add <package>` (updates `pyproject.toml` and `uv.lock`). For Colab or a cluster without uv: `uv export --no-hashes > requirements.txt`, then `pip install -r requirements.txt`.
 
 ## Data rules
 
