@@ -1,0 +1,22 @@
+# Data and outputs stay out of git
+data/
+*.parquet
+*.npy
+*.npz
+runs/
+checkpoints/
+*.pt
+*.ckpt
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
