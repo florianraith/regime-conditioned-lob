@@ -36,6 +36,22 @@ Add a dependency with `uv add <package>` (updates `pyproject.toml` and `uv.lock`
 * Context features use the past only. Regimes describe the future block and are conditions, never inputs from the target.
 * Splits are defined once in `src/lobgen/common/config_sample6m.py`: A (fixed, headline numbers), B (monthly expanding walk forward), C (DiffLOB paper replication).
 
+## Snapshot grid
+
+```sh
+uv run python -m lobgen.common.grid --workers 6     # all 121 days, about 4 min
+uv run python -m lobgen.common.grid --days 20250407 # selected days
+```
+
+Writes to `LOBGEN_OUT_DIR`:
+
+* `snapshots/fesx_{0p5s,1s,2s}/YYYYMMDD.parquet`: grid time `t_ns`, 10 level book in ticks, per step `n_upd`, `n_trd`, `trd_vol`, `signed_vol`, `ofi_1`, `ofi_10`, and `book_valid` (0 where the book was empty and the last valid one is forward filled). Grid runs 07:00:00.5 to 15:35:00 UTC; select the sample window 07:30 to 15:00 yourself.
+* `snapshots/vstoxx_ctx_{0p5s,1s,2s}/YYYYMMDD.parquet`: `vx_mid`, `vx_age_s`, `vx_valid`.
+* `trades/YYYYMMDD.parquet`: every FESX trade row with sign, volume and the book just before it.
+* `reports/clean_report.csv`: invalid rows, gaps and signed trade share per day.
+
+`lobgen.common.flows.flow_vector` turns the flow columns into the GAN's 5 number flow vector.
+
 ## Shared config
 
 `config_sample6m.py` holds paths, tick sizes, excluded days, time windows and the splits. Both models import it, so they see the same days.
